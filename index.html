@@ -1,0 +1,918 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>群馬発 送料くらべ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap">
+<style>
+:root{
+  --paper:#EDF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F4F7FA;
+  --surface-3:#E8EEF3;
+  --ink:#131A21;
+  --ink-2:#475765;
+  --ink-3:#788895;
+  --line:#D2DBE2;
+  --line-2:#B6C3CE;
+  --sagawa:#1F5F94;
+  --sagawa-soft:#E3EEF8;
+  --kangaroo:#A5551A;
+  --kangaroo-soft:#FAEBDD;
+  --win:#1C6A4A;
+  --win-soft:#DEF0E7;
+  --danger:#9B2C2C;
+  --danger-soft:#FBE7E7;
+  --shadow:0 1px 2px rgba(19,26,33,.06),0 8px 24px -12px rgba(19,26,33,.22);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1418;
+    --surface:#171F26;
+    --surface-2:#1C262E;
+    --surface-3:#232F38;
+    --ink:#E4EBF0;
+    --ink-2:#A5B3BE;
+    --ink-3:#7D8C98;
+    --line:#2B3640;
+    --line-2:#3B4A56;
+    --sagawa:#79B2E0;
+    --sagawa-soft:#16283A;
+    --kangaroo:#E39A5F;
+    --kangaroo-soft:#332316;
+    --win:#5FC094;
+    --win-soft:#11291F;
+    --danger:#E2807C;
+    --danger-soft:#2E1A1A;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1418;
+  --surface:#171F26;
+  --surface-2:#1C262E;
+  --surface-3:#232F38;
+  --ink:#E4EBF0;
+  --ink-2:#A5B3BE;
+  --ink-3:#7D8C98;
+  --line:#2B3640;
+  --line-2:#3B4A56;
+  --sagawa:#79B2E0;
+  --sagawa-soft:#16283A;
+  --kangaroo:#E39A5F;
+  --kangaroo-soft:#332316;
+  --win:#5FC094;
+  --win-soft:#11291F;
+  --danger:#E2807C;
+  --danger-soft:#2E1A1A;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"BIZ UDPGothic","Hiragino Kaku Gothic ProN","Yu Gothic UI",Meiryo,sans-serif;
+  font-size:15px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{font-family:"Zen Kaku Gothic New","BIZ UDPGothic",sans-serif;text-wrap:balance;margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit}
+input,select{font:inherit;color:inherit}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 72px}
+
+/* ---------- header ---------- */
+header.top{
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
+.top-in{
+  max-width:1120px;margin:0 auto;padding:18px 20px 0;
+  display:flex;flex-direction:column;gap:14px;
+}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand .co{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3);
+  border:1px solid var(--line-2);border-radius:2px;padding:2px 7px;
+}
+.brand h1{font-size:23px;font-weight:900;letter-spacing:.01em}
+.brand .sub{font-size:12.5px;color:var(--ink-3);line-height:1.5}
+
+.tabs{display:flex;gap:2px}
+.tab{
+  appearance:none;background:none;border:0;cursor:pointer;
+  padding:11px 18px 12px;font-size:14px;font-weight:700;
+  font-family:"Zen Kaku Gothic New",sans-serif;
+  color:var(--ink-3);border-bottom:3px solid transparent;margin-bottom:-1px;
+}
+.tab:hover{color:var(--ink-2)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--sagawa)}
+.tab:focus-visible{outline:2px solid var(--sagawa);outline-offset:-3px;border-radius:3px}
+
+/* ---------- shared blocks ---------- */
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  box-shadow:var(--shadow);
+}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:36px 0 14px}
+.section-head h2{font-size:17px;font-weight:700}
+
+/* ---------- input form ---------- */
+.form{margin-top:24px;padding:22px 22px 24px}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr) 1.5fr;gap:14px}
+@media (max-width:760px){
+  .form-grid{grid-template-columns:repeat(3,1fr);gap:12px}
+  .form-grid .field:last-child{grid-column:1 / -1}
+}
+@media (max-width:420px){
+  .form{padding:18px 16px 20px}
+  .inp input{font-size:17px;padding-left:10px}
+  .inp .unit{padding:0 9px;font-size:11.5px}
+}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:12px;font-weight:700;color:var(--ink-2);letter-spacing:.02em}
+.inp{
+  display:flex;align-items:center;gap:0;
+  border:1px solid var(--line-2);border-radius:4px;background:var(--surface-2);
+  transition:border-color .12s,box-shadow .12s;
+}
+.inp:focus-within{border-color:var(--sagawa);box-shadow:0 0 0 3px color-mix(in srgb,var(--sagawa) 22%,transparent)}
+.inp input{
+  border:0;background:none;outline:none;width:100%;min-width:0;
+  padding:11px 0 11px 12px;font-size:19px;font-weight:500;
+  font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+}
+.inp .unit{padding:0 12px;font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+.inp input::-webkit-outer-spin-button,.inp input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.inp input[type=number]{-moz-appearance:textfield}
+select.sel{
+  width:100%;padding:11px 12px;font-size:16px;border:1px solid var(--line-2);
+  border-radius:4px;background:var(--surface-2);outline:none;
+}
+select.sel:focus-visible{border-color:var(--sagawa);box-shadow:0 0 0 3px color-mix(in srgb,var(--sagawa) 22%,transparent)}
+.origin-note{
+  margin-top:14px;font-size:12.5px;color:var(--ink-3);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.origin-chip{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;
+  background:var(--surface-3);border-radius:3px;padding:3px 8px;color:var(--ink-2);
+}
+
+/* ---------- verdict ---------- */
+.verdict{margin-top:26px;padding:0;overflow:hidden}
+.verdict.idle{padding:44px 22px;text-align:center;color:var(--ink-3);font-size:14px}
+.verdict-head{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:20px 24px;border-bottom:1px solid var(--line);
+  background:var(--win-soft);
+}
+.verdict-head.none{background:var(--danger-soft)}
+.stamp{
+  font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:12px;
+  letter-spacing:.14em;color:var(--win);
+  border:2px solid var(--win);border-radius:3px;padding:5px 11px;white-space:nowrap;
+}
+.verdict-head.none .stamp{color:var(--danger);border-color:var(--danger)}
+.verdict-name{font-size:24px;font-weight:900;line-height:1.3}
+.verdict-price{margin-left:auto;text-align:right;line-height:1.15}
+.verdict-price .amt{
+  font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:38px;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.verdict-price .tax{font-size:11.5px;color:var(--ink-2);letter-spacing:.04em}
+.verdict-diff{
+  padding:11px 24px;font-size:13px;color:var(--ink-2);
+  background:var(--surface-2);border-bottom:1px solid var(--line);
+}
+.verdict-diff b{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--ink)}
+
+/* ---------- lanes ---------- */
+.lanes{display:grid;grid-template-columns:1fr 1fr}
+@media (max-width:700px){.lanes{grid-template-columns:1fr}}
+.lane{padding:20px 24px 22px;border-right:1px solid var(--line)}
+.lanes .lane:last-child{border-right:0}
+@media (max-width:700px){
+  .lane{border-right:0;border-bottom:1px solid var(--line)}
+  .lanes .lane:last-child{border-bottom:0}
+}
+.lane-top{display:flex;align-items:center;gap:9px;margin-bottom:2px}
+.lane-dot{width:9px;height:9px;border-radius:50%;flex:none}
+.lane-a .lane-dot{background:var(--sagawa)}
+.lane-b .lane-dot{background:var(--kangaroo)}
+.lane-name{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:15px}
+.lane-a .lane-name{color:var(--sagawa)}
+.lane-b .lane-name{color:var(--kangaroo)}
+.lane-svc{font-size:11.5px;color:var(--ink-3);margin-bottom:12px}
+.lane-amt{
+  font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:31px;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2;
+}
+.lane-amt small{font-size:14px;font-weight:400;margin-left:3px}
+.lane-amt.na{font-size:17px;color:var(--danger);font-family:"BIZ UDPGothic",sans-serif;font-weight:700}
+.lane-flag{
+  display:inline-block;margin-top:7px;font-size:11px;font-weight:700;letter-spacing:.08em;
+  padding:2px 8px;border-radius:3px;background:var(--win-soft);color:var(--win);
+}
+.basis{margin-top:16px;border-top:1px dashed var(--line-2);padding-top:12px}
+.basis dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:12.5px}
+.basis dt{color:var(--ink-3);white-space:nowrap}
+.basis dd{margin:0;text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.basis dd em{font-style:normal;color:var(--ink);font-weight:600}
+
+/* ---------- notes ---------- */
+.notes{margin-top:26px;padding:18px 22px;font-size:12.5px;color:var(--ink-2);line-height:1.85}
+.notes h3{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink)}
+.notes ul{margin:0;padding-left:1.2em}
+.notes li{margin:2px 0}
+.notes code{font-family:"IBM Plex Mono",monospace;font-size:11.5px;background:var(--surface-3);padding:1px 5px;border-radius:3px}
+
+.alert{
+  margin-top:26px;padding:14px 18px;border-radius:5px;font-size:13px;line-height:1.8;
+  background:var(--kangaroo-soft);border:1px solid color-mix(in srgb,var(--kangaroo) 35%,transparent);
+  color:var(--ink-2);
+}
+.alert b{color:var(--kangaroo)}
+
+/* ---------- rate tables ---------- */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{
+  appearance:none;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);
+  border-radius:4px;padding:7px 13px;font-size:12.5px;font-weight:700;
+  font-family:"Zen Kaku Gothic New",sans-serif;transition:background .12s,border-color .12s;
+}
+.btn:hover{background:var(--surface-3);border-color:var(--ink-3)}
+.btn:focus-visible{outline:2px solid var(--sagawa);outline-offset:2px}
+.btn.warn{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 45%,var(--line-2))}
+.btn.primary{background:var(--sagawa);border-color:var(--sagawa);color:#fff}
+.btn.primary:hover{background:color-mix(in srgb,var(--sagawa) 85%,#000)}
+
+.tablebox{overflow:auto;max-height:70vh;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table.rates{border-collapse:separate;border-spacing:0;font-size:12px;width:100%}
+table.rates th,table.rates td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:0;white-space:nowrap}
+table.rates td{min-width:68px}
+table.rates thead th{
+  position:sticky;top:0;z-index:3;background:var(--surface-3);
+  padding:6px 8px;font-weight:700;font-size:11px;text-align:center;vertical-align:bottom;
+}
+table.rates thead th .km{font-family:"IBM Plex Mono",monospace;font-size:12px;display:block}
+table.rates thead th .pf{display:block;font-size:9.5px;font-weight:400;color:var(--ink-3);line-height:1.35;max-width:82px;white-space:normal;margin:2px auto 0}
+table.rates tbody th{
+  position:sticky;left:0;z-index:2;background:var(--surface-3);
+  padding:5px 10px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  font-weight:600;text-align:right;min-width:62px;
+  box-shadow:1px 0 0 var(--line);
+}
+table.rates thead th:first-child{left:0;z-index:4}
+table.rates td input{
+  border:0;background:none;outline:none;width:100%;padding:5px 8px;text-align:right;
+  font-family:"IBM Plex Mono",monospace;font-size:12px;font-variant-numeric:tabular-nums;
+}
+table.rates td:focus-within{background:var(--sagawa-soft);box-shadow:inset 0 0 0 2px var(--sagawa)}
+table.rates td.dirty input{color:var(--kangaroo);font-weight:600}
+table.rates tbody tr:hover td{background:color-mix(in srgb,var(--sagawa) 6%,transparent)}
+.sizecell{display:block;font-size:9.5px;color:var(--ink-3);font-family:"BIZ UDPGothic",sans-serif;font-weight:400}
+
+.maptable{width:100%;border-collapse:collapse;font-size:13px}
+.maptable th,.maptable td{border-bottom:1px solid var(--line);padding:5px 10px;text-align:left}
+.maptable thead th{font-size:11px;color:var(--ink-3);font-weight:700;letter-spacing:.04em;background:var(--surface-3);position:sticky;top:0;z-index:1}
+.maptable td select{width:100%;border:1px solid transparent;background:none;border-radius:3px;padding:3px 5px;font-size:12.5px}
+.maptable td select:hover{border-color:var(--line-2);background:var(--surface-2)}
+.maptable td select:focus-visible{outline:2px solid var(--sagawa);outline-offset:0}
+.maptable td.pf{font-weight:700;white-space:nowrap;width:8em}
+
+.csvbox{margin-top:12px;display:none}
+.csvbox.open{display:block}
+.csvbox textarea{
+  width:100%;height:190px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  border:1px solid var(--line-2);border-radius:5px;padding:11px;background:var(--surface-2);
+  color:var(--ink);resize:vertical;outline:none;line-height:1.5;
+}
+.csvbox textarea:focus{border-color:var(--sagawa)}
+.csvbox .row{display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap}
+.msg{font-size:12px;color:var(--win);font-weight:700}
+.msg.err{color:var(--danger)}
+
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <span class="co">Machida Shokai</span>
+      <h1>群馬発 送料くらべ</h1>
+      <span class="sub">佐川急便 と 飛脚カンガルー便 の安い方を判定します</span>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-calc" aria-controls="panel-calc" aria-selected="true">送料を計算</button>
+      <button class="tab" role="tab" id="tab-rates" aria-controls="panel-rates" aria-selected="false">料金表を編集</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ CALC ============ -->
+<section id="panel-calc" role="tabpanel" aria-labelledby="tab-calc">
+
+  <div class="alert" id="expiry" hidden>
+    <b>佐川急便の運賃が期限切れです。</b>
+    お預かりした運賃表の満期日は <span class="mono">2026年1月15日</span> です。現在の契約運賃は変わっている可能性があります。
+    <b>「料金表を編集」タブ</b>で最新の見積金額に更新してください。
+  </div>
+
+  <div class="card form">
+    <div class="form-grid">
+      <div class="field">
+        <label for="f-h">高さ</label>
+        <div class="inp"><input id="f-h" type="number" min="1" step="1" inputmode="numeric" placeholder="0"><span class="unit">cm</span></div>
+      </div>
+      <div class="field">
+        <label for="f-w">幅</label>
+        <div class="inp"><input id="f-w" type="number" min="1" step="1" inputmode="numeric" placeholder="0"><span class="unit">cm</span></div>
+      </div>
+      <div class="field">
+        <label for="f-d">奥行き</label>
+        <div class="inp"><input id="f-d" type="number" min="1" step="1" inputmode="numeric" placeholder="0"><span class="unit">cm</span></div>
+      </div>
+      <div class="field">
+        <label for="f-pref">送り先</label>
+        <select id="f-pref" class="sel"></select>
+      </div>
+    </div>
+    <div class="origin-note">
+      <span class="origin-chip">発地 群馬県</span>
+      <span>3辺と送り先を入れると、下に結果が出ます。</span>
+    </div>
+  </div>
+
+  <div id="verdict" class="card verdict idle">3辺のサイズと送り先を入力してください。</div>
+
+  <div class="card notes">
+    <h3>計算のしかた</h3>
+    <ul>
+      <li><b>佐川急便</b>… 高さ＋幅＋奥行きの<b>3辺合計</b>でサイズ区分（60〜260）を決め、送り先の地帯別運賃表から引きます。</li>
+      <li><b>飛脚カンガルー便</b>… 運賃表が<b>重量建て</b>のため、3辺から<b>容積換算重量</b>を出して重量区分を決め、送り先の距離帯（km）別運賃表から引きます。<br>
+        容積換算 <code class="mono">換算kg ＝ 高さ×幅×奥行き(cm) ÷ 1,000,000 × 280</code>（西濃運輸の 1m³＝280kg 換算／1才≒8kg と同じ基準）</li>
+      <li>金額はどちらも<b>消費税抜</b>です。佐川急便の運賃表には「消費税は別途請求」と明記されています。</li>
+    </ul>
+  </div>
+
+  <div class="card notes">
+    <h3>ご注意</h3>
+    <ul>
+      <li>佐川急便は<b>重量上限50kg・サイズ上限260</b>です。3辺が収まっていても実重量が超えると別扱いになります。</li>
+      <li>飛脚カンガルー便は<b>実重量が容積換算重量を上回る場合、実重量で計算</b>されます。小さくて重い荷物は実運賃が上振れします。</li>
+      <li><b>沖縄県・一部離島</b>は両社とも別途料金のため、このツールでは判定できません。</li>
+      <li>佐川急便の運賃は町田商会様の契約運賃（運賃適用期日 2025年1月16日〜2026年1月15日）です。<b>期限切れの場合は再見積の金額に更新してください。</b></li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ============ RATES ============ -->
+<section id="panel-rates" role="tabpanel" aria-labelledby="tab-rates" hidden>
+
+  <div class="alert">
+    <b>最初に照合をお願いします。</b>
+    初期値は、いただいた運賃表の画像から読み取った数値です。とくに飛脚カンガルー便は 30列×24行（約700マス）あり、読み取り誤りが混じっている可能性があります。
+    原本と見比べて、違うマスはその場で直してください。<b>修正はこのブラウザに自動保存</b>され、次回以降も反映されます。
+  </div>
+
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Rate table 01</div>
+      <h2>佐川急便 ／ 地帯別運賃表（税抜・円）</h2>
+    </div>
+    <div class="toolbar">
+      <button class="btn" data-csv="sagawa">CSVで入出力</button>
+      <button class="btn warn" data-reset="sagawa">初期値に戻す</button>
+    </div>
+  </div>
+  <div class="tablebox"><table class="rates" id="tbl-sagawa"></table></div>
+  <div class="csvbox" id="csv-sagawa">
+    <textarea spellcheck="false" aria-label="佐川急便 運賃表 CSV"></textarea>
+    <div class="row">
+      <button class="btn primary" data-csvapply="sagawa">この内容を反映</button>
+      <button class="btn" data-csvcopy="sagawa">コピー</button>
+      <span class="msg" data-csvmsg="sagawa"></span>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Rate table 02</div>
+      <h2>飛脚カンガルー便 ／ 距離帯×重量 運賃表（税抜・円）</h2>
+    </div>
+    <div class="toolbar">
+      <button class="btn" data-csv="kangaroo">CSVで入出力</button>
+      <button class="btn warn" data-reset="kangaroo">初期値に戻す</button>
+    </div>
+  </div>
+  <div class="tablebox"><table class="rates" id="tbl-kangaroo"></table></div>
+  <div class="csvbox" id="csv-kangaroo">
+    <textarea spellcheck="false" aria-label="飛脚カンガルー便 運賃表 CSV"></textarea>
+    <div class="row">
+      <button class="btn primary" data-csvapply="kangaroo">この内容を反映</button>
+      <button class="btn" data-csvcopy="kangaroo">コピー</button>
+      <span class="msg" data-csvmsg="kangaroo"></span>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">Zone mapping</div>
+      <h2>送り先の割り当て（都道府県 → 地帯・距離帯）</h2>
+    </div>
+    <div class="toolbar">
+      <button class="btn warn" data-reset="map">初期値に戻す</button>
+    </div>
+  </div>
+  <div class="tablebox" style="max-height:60vh">
+    <table class="maptable" id="tbl-map">
+      <thead><tr><th>都道府県</th><th>佐川急便 地帯</th><th>カンガルー便 距離帯</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="card notes" style="margin-top:22px">
+    <h3>容積換算の係数</h3>
+    <ul>
+      <li>
+        <label for="f-coef">1m³ あたり</label>
+        <input id="f-coef" class="mono" type="number" min="1" step="1" value="280"
+               style="width:6.5em;padding:5px 8px;border:1px solid var(--line-2);border-radius:4px;background:var(--surface-2);text-align:right">
+        kg で換算 &nbsp;<span style="color:var(--ink-3)">（既定 280kg／m³ ＝ 1才 約7.9kg）</span>
+      </li>
+    </ul>
+  </div>
+
+</section>
+</main>
+
+<script>
+"use strict";
+
+/* ========== 定数・初期データ ========== */
+
+const PREFS = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"];
+
+/* --- 佐川急便：地帯 --- */
+const SG_ZONES = [
+  {k:"hokkaido",   n:"北海道"},
+  {k:"kitatohoku", n:"北東北"},
+  {k:"minamitohoku",n:"南東北"},
+  {k:"kanto",      n:"関東"},
+  {k:"shinetsu",   n:"信越"},
+  {k:"hokuriku",   n:"北陸"},
+  {k:"tokai",      n:"東海"},
+  {k:"kansai",     n:"関西"},
+  {k:"chugoku",    n:"中国"},
+  {k:"shikoku",    n:"四国"},
+  {k:"kitakyushu", n:"北九州"},
+  {k:"minamikyushu",n:"南九州"}
+];
+
+/* サイズ区分（3辺合計の上限, 参考重量） */
+const SG_SIZES = [
+  {size:60,  max:60,  wt:"2kg迄"},
+  {size:80,  max:80,  wt:"5kg迄"},
+  {size:100, max:100, wt:"10kg迄"},
+  {size:140, max:140, wt:"20kg迄"},
+  {size:160, max:160, wt:"30kg迄"},
+  {size:170, max:170, wt:"50kg迄"},
+  {size:180, max:180, wt:""},
+  {size:200, max:200, wt:""},
+  {size:220, max:220, wt:""},
+  {size:240, max:240, wt:""},
+  {size:260, max:260, wt:""}
+];
+
+/* 運賃：SG_ZONES の並び順 */
+const SG_RATES_DEFAULT = {
+  60 : [ 890, 620, 530, 530, 530, 630, 530, 620, 710, 800, 890, 890],
+  80 : [1090, 720, 670, 620, 620, 720, 670, 720, 910, 870,1090,1090],
+  100: [1150, 750, 700, 650, 650, 750, 700, 760, 950, 950,1150,1150],
+  140: [1408,1116,1102, 803, 900, 999, 940,1070,1175,1136,1253,1306],
+  160: [2222,1666,1642,1530,1530,1530,1530,1620,1780,1800,2050,2060],
+  170: [3600,3100,2900,2200,2850,2850,2850,2850,3100,3100,3300,3600],
+  180: [4082,3400,3200,2450,3100,3100,3100,3100,3400,3400,3512,3715],
+  200: [5323,4150,3900,2950,3800,3800,3800,3800,4179,4150,4562,5000],
+  220: [6549,4900,4672,3450,4450,4450,4450,4476,5120,4950,5600,5950],
+  240: [8509,6519,6402,4450,5800,5800,5800,6126,6909,6680,7600,8168],
+  260: [10654,8298,7918,5450,7150,7150,7150,7654,8563,8502,9418,10416]
+};
+
+/* --- 飛脚カンガルー便：距離帯(km) --- */
+const KG_ZONES = [50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000];
+/* 重量区分（上限kg） */
+const KG_WEIGHTS = [10,20,30,40,60,80,100,120,140,160,180,200,250,300,350,400,450,500,550,600,650,700,750,800];
+
+/* 運賃：行=KG_WEIGHTS、列=KG_ZONES */
+const KG_RATES_DEFAULT = {
+  10 : [1200,1200,1200,1200,1300,1300,1300,1300,1300,1300,1300,1300,1500,1500,1600,1600,1700,1800,1800,1800,1800,1800,1800,1800,1900,1900,1900,1900,1900,2000],
+  20 : [1300,1400,1400,1500,1500,1500,1500,1600,1600,1600,1600,1600,1900,1900,2100,2100,2200,2200,2300,2300,2400,2400,2500,2500,2600,2600,2700,2800,2800,2900],
+  30 : [1500,1500,1500,1600,1600,1700,1700,1800,1800,1800,1800,1800,2200,2300,2400,2400,2600,2700,2700,2700,2800,2900,3000,3100,3200,3300,3400,3500,3600,3700],
+  40 : [1700,1700,1800,1800,1900,1900,2000,2100,2100,2200,2200,2200,2700,2800,3000,3000,3200,3300,3400,3400,3600,3700,3900,4000,4200,4300,4500,4600,4700,4900],
+  60 : [1800,1900,2000,2100,2100,2200,2300,2500,2500,2500,2600,2700,3200,3300,3500,3600,3900,4000,4100,4100,4300,4500,4700,4900,5100,5300,5500,5700,5900,6100],
+  80 : [2100,2200,2300,2500,2600,2700,2800,3000,3100,3200,3300,3400,4100,4200,4500,4600,4900,5100,5200,5400,5700,6000,6300,6600,6800,7100,7400,7700,8000,8300],
+  100: [2400,2500,2700,2900,3000,3200,3300,3500,3600,3700,3900,4000,4800,5000,5400,5500,6000,6100,6300,6500,6900,7200,7600,7900,8300,8600,9000,9300,9700,10000],
+  120: [2700,2800,3100,3300,3500,3700,3800,4100,4300,4300,4600,4700,5900,6000,6500,6700,7100,7300,7500,7800,8200,8700,9100,9500,10000,10400,10900,11300,11700,12200],
+  140: [3000,3200,3400,3700,3900,4200,4400,4600,4800,5000,5200,5400,6700,6900,7500,7800,8200,8400,8700,9000,9500,10000,10600,11100,11600,12100,12700,13200,13700,14200],
+  160: [3300,3500,3800,4100,4400,4600,4900,5100,5300,5600,5800,6100,7500,7800,8400,8700,9200,9600,9800,10100,10700,11400,12000,12600,13200,13900,14500,15100,15700,16400],
+  180: [3600,3800,4100,4500,4800,5100,5300,5600,5900,6200,6400,6700,8300,8600,9300,9600,10200,10500,10900,11300,12000,12700,13400,14100,14800,15500,16200,16900,17600,18300],
+  200: [3800,4000,4400,4700,5100,5400,5600,6000,6200,6500,6800,7100,8800,9100,9800,10200,10800,11100,11500,11900,12700,13400,14200,14900,15700,16400,17200,17900,18600,19400],
+  250: [4500,4900,5300,5700,6100,6500,6900,7300,7600,8000,8300,8700,10800,11200,12100,12600,13200,13700,14100,14700,15600,16500,17500,18400,19400,20300,21200,22200,23100,24000],
+  300: [5300,5600,6200,6700,7200,7700,8100,8600,9100,9500,9900,10400,12800,13300,14500,15000,15800,16400,16900,17500,18600,19700,20900,22000,23200,24200,25300,26400,27500,28600],
+  350: [6000,6400,7100,7600,8300,8800,9300,9900,10400,10900,11500,12000,14800,15300,16700,17400,18300,19000,19600,20300,21700,23000,24400,25600,27100,28500,29800,31200,32500,33900],
+  400: [6800,7300,8000,8700,9400,10000,10600,11200,11900,12500,13100,13700,16900,17700,19100,19800,20900,21700,22400,23200,24800,26300,27900,29500,31000,32600,34100,35700,37200,38800],
+  450: [7400,8100,8900,9700,10500,11200,11900,12500,13300,13900,14700,15400,18900,19900,21400,22300,23500,24400,25200,26100,27900,29600,31300,33100,34900,36600,38400,40200,41900,43700],
+  500: [8200,8800,9700,10600,11500,12300,13000,13900,14700,15400,16200,17000,21000,21900,23800,24700,26000,27000,28000,29000,31000,32900,34900,36900,38800,40800,42800,44800,46700,48700],
+  550: [10400,11300,12500,13700,14900,15900,16900,17900,18900,20000,21000,22000,23400,24400,26500,27500,29700,30800,31900,33100,35300,37600,39800,42100,44400,46600,48900,51100,53400,55600],
+  600: [11200,12200,13500,14700,16100,17200,18300,19500,20600,21700,22800,24000,25400,26600,28800,30000,32300,33500,34800,36000,38500,41000,43400,45900,48300,50800,53200,55700,58300,60700],
+  650: [12100,13100,14500,16000,17400,18600,19800,21100,22200,23300,24700,25900,27500,28800,31100,32500,35000,36300,37700,39000,41700,44400,47100,49800,52500,55100,57800,60500,63200,65900],
+  700: [12900,14000,15600,17100,18600,19900,21200,22600,23900,25200,26600,27900,29600,31000,33600,34900,37700,39100,40500,42000,44900,47800,50700,53500,56400,59300,62200,65100,68000,70900],
+  750: [13800,15000,16700,18300,19900,21400,22700,24100,25500,27000,28400,29800,31700,33100,35900,37400,40300,41900,43500,44900,48100,51100,54300,57300,60500,63500,66700,69700,72900,75900],
+  800: [14600,15900,17700,19500,21200,22700,24200,25700,27300,28700,30200,31800,33700,35300,38200,39900,43000,44700,46300,48000,51300,54600,57900,61300,64600,67900,71200,74600,77900,81200]
+};
+
+/* --- 都道府県 → 地帯 / 距離帯 --- */
+const MAP_DEFAULT = {
+  "北海道":["hokkaido",1000],
+  "青森県":["kitatohoku",750],  "岩手県":["kitatohoku",550],  "秋田県":["kitatohoku",550],
+  "宮城県":["minamitohoku",400],"山形県":["minamitohoku",400],"福島県":["minamitohoku",300],
+  "茨城県":["kanto",150],"栃木県":["kanto",150],"群馬県":["kanto",50],"埼玉県":["kanto",100],
+  "千葉県":["kanto",200],"東京都":["kanto",150],"神奈川県":["kanto",200],"山梨県":["kanto",250],
+  "新潟県":["shinetsu",250],"長野県":["shinetsu",150],
+  "富山県":["hokuriku",350],"石川県":["hokuriku",400],"福井県":["hokuriku",500],
+  "岐阜県":["tokai",350],"静岡県":["tokai",300],"愛知県":["tokai",350],"三重県":["tokai",450],
+  "滋賀県":["kansai",500],"京都府":["kansai",500],"大阪府":["kansai",550],"兵庫県":["kansai",550],
+  "奈良県":["kansai",500],"和歌山県":["kansai",600],
+  "鳥取県":["chugoku",700],"島根県":["chugoku",850],"岡山県":["chugoku",700],
+  "広島県":["chugoku",900],"山口県":["chugoku",1000],
+  "徳島県":["shikoku",650],"香川県":["shikoku",700],"愛媛県":["shikoku",850],"高知県":["shikoku",800],
+  "福岡県":["kitakyushu",1200],"佐賀県":["kitakyushu",1200],"長崎県":["kitakyushu",1300],"大分県":["kitakyushu",1200],
+  "熊本県":["minamikyushu",1300],"宮崎県":["minamikyushu",1500],"鹿児島県":["minamikyushu",1500],
+  "沖縄県":[null,null]
+};
+
+/* ========== 状態 ========== */
+const STORE_KEY = "machida-soryo-v1";
+const clone = o => JSON.parse(JSON.stringify(o));
+
+let state = {
+  sg: clone(SG_RATES_DEFAULT),
+  kg: clone(KG_RATES_DEFAULT),
+  map: clone(MAP_DEFAULT),
+  coef: 280
+};
+
+function load(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    if(s.sg) Object.keys(state.sg).forEach(k=>{ if(Array.isArray(s.sg[k])&&s.sg[k].length===SG_ZONES.length) state.sg[k]=s.sg[k]; });
+    if(s.kg) Object.keys(state.kg).forEach(k=>{ if(Array.isArray(s.kg[k])&&s.kg[k].length===KG_ZONES.length) state.kg[k]=s.kg[k]; });
+    if(s.map) PREFS.forEach(p=>{ if(Array.isArray(s.map[p])&&s.map[p].length===2) state.map[p]=s.map[p]; });
+    if(typeof s.coef==="number"&&s.coef>0) state.coef=s.coef;
+  }catch(e){/* 保存が使えない環境でも動く */}
+}
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+/* ========== 計算 ========== */
+const yen = n => "¥" + n.toLocaleString("ja-JP");
+
+function calcSagawa(sum, pref){
+  const zoneKey = state.map[pref] && state.map[pref][0];
+  if(!zoneKey) return {ok:false, reason:"地帯が未設定（別途料金）"};
+  const zi = SG_ZONES.findIndex(z=>z.k===zoneKey);
+  if(zi < 0) return {ok:false, reason:"地帯が未設定"};
+  const row = SG_SIZES.find(s => sum <= s.max);
+  if(!row) return {ok:false, reason:"3辺合計が260cmを超えています"};
+  const price = state.sg[row.size][zi];
+  if(!(price > 0)) return {ok:false, reason:"運賃が未入力です"};
+  return {ok:true, price, size:row.size, wt:row.wt, zone:SG_ZONES[zi].n};
+}
+
+function calcKangaroo(vol_cm3, pref){
+  const sai  = vol_cm3 / 28316.85;
+  const conv = vol_cm3 / 1000000 * state.coef;
+  const km = state.map[pref] && state.map[pref][1];
+  if(!km) return {ok:false, reason:"距離帯が未設定（別途料金）", sai, conv};
+  const zi = KG_ZONES.indexOf(km);
+  if(zi < 0) return {ok:false, reason:"距離帯が未設定", sai, conv};
+  const brk  = KG_WEIGHTS.find(w => conv <= w);
+  if(!brk) return {ok:false, reason:"換算重量が800kgを超えています", sai, conv};
+  const price = state.kg[brk][zi];
+  if(!(price > 0)) return {ok:false, reason:"運賃が未入力です", sai, conv};
+  return {ok:true, price, brk, sai, conv, km};
+}
+
+function run(){
+  const h = parseFloat(document.getElementById("f-h").value);
+  const w = parseFloat(document.getElementById("f-w").value);
+  const d = parseFloat(document.getElementById("f-d").value);
+  const pref = document.getElementById("f-pref").value;
+  const box = document.getElementById("verdict");
+
+  if(!(h>0) || !(w>0) || !(d>0) || !pref){
+    box.className = "card verdict idle";
+    box.textContent = "3辺のサイズと送り先を入力してください。";
+    return;
+  }
+
+  const sum = h + w + d;
+  const vol = h * w * d;
+  const A = calcSagawa(sum, pref);
+  const B = calcKangaroo(vol, pref);
+
+  let head, diff = "";
+  if(A.ok && B.ok){
+    const cheaper = A.price <= B.price ? "A" : "B";
+    const win  = cheaper === "A" ? A : B;
+    const lose = cheaper === "A" ? B : A;
+    const name = cheaper === "A" ? "佐川急便" : "飛脚カンガルー便";
+    head = `<div class="verdict-head">
+      <span class="stamp">安いのはこちら</span>
+      <span class="verdict-name">${name}</span>
+      <span class="verdict-price"><span class="amt">${yen(win.price)}</span><br><span class="tax">税抜 ／ 税込 ${yen(Math.round(win.price*1.1))}</span></span>
+    </div>`;
+    const gap = lose.price - win.price;
+    diff = gap === 0
+      ? `<div class="verdict-diff">2社とも <b>${yen(win.price)}</b> で同額です。運びやすい方を選んでください。</div>`
+      : `<div class="verdict-diff">もう一方より <b>${yen(gap)}</b> 安い（${(gap/lose.price*100).toFixed(1)}％ 減）</div>`;
+  } else if(A.ok || B.ok){
+    const win  = A.ok ? A : B;
+    const name = A.ok ? "佐川急便" : "飛脚カンガルー便";
+    head = `<div class="verdict-head">
+      <span class="stamp">こちらのみ対応</span>
+      <span class="verdict-name">${name}</span>
+      <span class="verdict-price"><span class="amt">${yen(win.price)}</span><br><span class="tax">税抜 ／ 税込 ${yen(Math.round(win.price*1.1))}</span></span>
+    </div>`;
+    diff = `<div class="verdict-diff">もう一方は対象外のため、比較せずこの方法になります。</div>`;
+  } else {
+    head = `<div class="verdict-head none">
+      <span class="stamp">判定できません</span>
+      <span class="verdict-name">2社とも対象外です</span>
+    </div>`;
+    diff = `<div class="verdict-diff">${pref === "沖縄県" ? "沖縄県は両社とも別途料金です。営業所にお問い合わせください。" : "下の各欄の理由をご確認ください。"}</div>`;
+  }
+
+  const laneA = `
+    <div class="lane lane-a">
+      <div class="lane-top"><span class="lane-dot"></span><span class="lane-name">佐川急便</span></div>
+      <div class="lane-svc">3辺合計でサイズ区分 → 地帯別運賃</div>
+      ${A.ok
+        ? `<div class="lane-amt">${yen(A.price)}<small>税抜</small></div>
+           ${(A.ok&&B.ok&&A.price<B.price)?'<span class="lane-flag">安い</span>':''}
+           <div class="basis"><dl>
+             <dt>3辺合計</dt><dd><em>${sum.toLocaleString("ja-JP")}</em> cm</dd>
+             <dt>サイズ区分</dt><dd><em>${A.size}</em> サイズ${A.wt?" ／ "+A.wt:""}</dd>
+             <dt>地帯</dt><dd>${A.zone}</dd>
+             <dt>税込</dt><dd>${yen(Math.round(A.price*1.1))}</dd>
+           </dl></div>`
+        : `<div class="lane-amt na">対象外</div>
+           <div class="basis"><dl>
+             <dt>理由</dt><dd>${A.reason}</dd>
+             <dt>3辺合計</dt><dd><em>${sum.toLocaleString("ja-JP")}</em> cm</dd>
+           </dl></div>`}
+    </div>`;
+
+  const saiTxt  = B.sai  != null ? B.sai.toFixed(1)  : "—";
+  const convTxt = B.conv != null ? Math.ceil(B.conv).toLocaleString("ja-JP") : "—";
+  const laneB = `
+    <div class="lane lane-b">
+      <div class="lane-top"><span class="lane-dot"></span><span class="lane-name">飛脚カンガルー便</span></div>
+      <div class="lane-svc">容積換算重量 → 距離帯別運賃</div>
+      ${B.ok
+        ? `<div class="lane-amt">${yen(B.price)}<small>税抜</small></div>
+           ${(A.ok&&B.ok&&B.price<A.price)?'<span class="lane-flag">安い</span>':''}
+           <div class="basis"><dl>
+             <dt>容積</dt><dd>${(vol/1000000).toFixed(3)} m³ ／ ${saiTxt} 才</dd>
+             <dt>容積換算重量</dt><dd><em>${convTxt}</em> kg</dd>
+             <dt>適用区分</dt><dd><em>${B.brk}</em> kg まで</dd>
+             <dt>距離帯</dt><dd>${B.km} km</dd>
+             <dt>税込</dt><dd>${yen(Math.round(B.price*1.1))}</dd>
+           </dl></div>`
+        : `<div class="lane-amt na">対象外</div>
+           <div class="basis"><dl>
+             <dt>理由</dt><dd>${B.reason}</dd>
+             <dt>容積換算重量</dt><dd><em>${convTxt}</em> kg</dd>
+           </dl></div>`}
+    </div>`;
+
+  box.className = "card verdict";
+  box.innerHTML = head + diff + `<div class="lanes">${laneA}${laneB}</div>`;
+}
+
+/* ========== 画面組み立て ========== */
+
+function buildPrefSelect(){
+  const sel = document.getElementById("f-pref");
+  sel.innerHTML = '<option value="">選択してください</option>' +
+    PREFS.map(p=>`<option value="${p}">${p}</option>`).join("");
+}
+
+function zonePrefLabel(km){
+  const list = PREFS.filter(p => state.map[p][1] === km);
+  return list.length ? list.map(p=>p.replace(/[都府県]$/,"")).join("・") : "—";
+}
+function sgZonePrefLabel(k){
+  const list = PREFS.filter(p => state.map[p][0] === k);
+  return list.length ? list.map(p=>p.replace(/[都府県]$/,"")).join("・") : "—";
+}
+
+function buildSagawaTable(){
+  const t = document.getElementById("tbl-sagawa");
+  let h = "<thead><tr><th>サイズ</th>";
+  SG_ZONES.forEach(z=>{ h += `<th><span class="km">${z.n}</span><span class="pf">${sgZonePrefLabel(z.k)}</span></th>`; });
+  h += "</tr></thead><tbody>";
+  SG_SIZES.forEach(s=>{
+    h += `<tr><th>${s.size}<span class="sizecell">${s.wt||"&nbsp;"}</span></th>`;
+    SG_ZONES.forEach((z,i)=>{
+      const dirty = state.sg[s.size][i] !== SG_RATES_DEFAULT[s.size][i] ? " class=\"dirty\"" : "";
+      h += `<td${dirty}><input type="number" inputmode="numeric" data-t="sg" data-r="${s.size}" data-c="${i}" value="${state.sg[s.size][i]}" aria-label="${s.size}サイズ ${z.n}"></td>`;
+    });
+    h += "</tr>";
+  });
+  t.innerHTML = h + "</tbody>";
+}
+
+function buildKangarooTable(){
+  const t = document.getElementById("tbl-kangaroo");
+  let h = "<thead><tr><th>kg まで</th>";
+  KG_ZONES.forEach(km=>{ h += `<th><span class="km">${km}km</span><span class="pf">${zonePrefLabel(km)}</span></th>`; });
+  h += "</tr></thead><tbody>";
+  KG_WEIGHTS.forEach(w=>{
+    h += `<tr><th>${w}</th>`;
+    KG_ZONES.forEach((km,i)=>{
+      const dirty = state.kg[w][i] !== KG_RATES_DEFAULT[w][i] ? " class=\"dirty\"" : "";
+      h += `<td${dirty}><input type="number" inputmode="numeric" data-t="kg" data-r="${w}" data-c="${i}" value="${state.kg[w][i]}" aria-label="${w}kgまで ${km}km"></td>`;
+    });
+    h += "</tr>";
+  });
+  t.innerHTML = h + "</tbody>";
+}
+
+function buildMapTable(){
+  const tb = document.querySelector("#tbl-map tbody");
+  tb.innerHTML = PREFS.map(p=>{
+    const [zk, km] = state.map[p];
+    const sgOpts = '<option value="">— 別途 —</option>' +
+      SG_ZONES.map(z=>`<option value="${z.k}"${z.k===zk?" selected":""}>${z.n}</option>`).join("");
+    const kgOpts = '<option value="">— 別途 —</option>' +
+      KG_ZONES.map(k=>`<option value="${k}"${k===km?" selected":""}>${k} km</option>`).join("");
+    return `<tr><td class="pf">${p}</td>
+      <td><select data-map="sg" data-p="${p}" aria-label="${p} 佐川地帯">${sgOpts}</select></td>
+      <td><select data-map="kg" data-p="${p}" aria-label="${p} カンガルー距離帯">${kgOpts}</select></td></tr>`;
+  }).join("");
+}
+
+function rebuildRates(){ buildSagawaTable(); buildKangarooTable(); buildMapTable(); }
+
+/* ========== CSV ========== */
+function toCsv(which){
+  if(which === "sagawa"){
+    const head = ["サイズ", ...SG_ZONES.map(z=>z.n)].join(",");
+    const rows = SG_SIZES.map(s => [s.size, ...state.sg[s.size]].join(","));
+    return [head, ...rows].join("\n");
+  }
+  const head = ["kgまで", ...KG_ZONES.map(k=>k+"km")].join(",");
+  const rows = KG_WEIGHTS.map(w => [w, ...state.kg[w]].join(","));
+  return [head, ...rows].join("\n");
+}
+function fromCsv(which, text){
+  const lines = text.trim().split(/\r?\n/).filter(l=>l.trim());
+  if(lines.length < 2) return "行が足りません。1行目は見出し、2行目以降が運賃です。";
+  const cols   = which === "sagawa" ? SG_ZONES.length : KG_ZONES.length;
+  const keys   = which === "sagawa" ? SG_SIZES.map(s=>s.size) : KG_WEIGHTS;
+  const target = which === "sagawa" ? state.sg : state.kg;
+  const staged = {};
+  for(let i=1;i<lines.length;i++){
+    const cell = lines[i].split(",").map(s=>s.trim());
+    const key = Number(cell[0]);
+    if(!keys.includes(key)) return `${i+1}行目：先頭の「${cell[0]}」は区分にない値です。`;
+    if(cell.length - 1 !== cols) return `${i+1}行目：運賃が ${cell.length-1} 個です。${cols} 個必要です。`;
+    const nums = cell.slice(1).map(Number);
+    if(nums.some(n=>!Number.isFinite(n)||n<0)) return `${i+1}行目：数字でない値が入っています。`;
+    staged[key] = nums;
+  }
+  Object.keys(staged).forEach(k=>{ target[k] = staged[k]; });
+  return null;
+}
+
+/* ========== イベント ========== */
+function bind(){
+  ["f-h","f-w","f-d"].forEach(id => document.getElementById(id).addEventListener("input", run));
+  document.getElementById("f-pref").addEventListener("change", run);
+
+  document.getElementById("f-coef").addEventListener("input", e=>{
+    const v = parseFloat(e.target.value);
+    if(v > 0){ state.coef = v; save(); run(); }
+  });
+
+  // タブ
+  document.querySelectorAll(".tab").forEach(t=>{
+    t.addEventListener("click", ()=>{
+      document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected", String(x===t)));
+      document.getElementById("panel-calc").hidden  = t.id !== "tab-calc";
+      document.getElementById("panel-rates").hidden = t.id !== "tab-rates";
+      window.scrollTo({top:0, behavior:"instant"});
+    });
+  });
+
+  // 運賃セル編集
+  document.addEventListener("input", e=>{
+    const el = e.target;
+    if(el.tagName !== "INPUT" || !el.dataset.t) return;
+    const v = Number(el.value);
+    if(!Number.isFinite(v) || v < 0) return;
+    const r = Number(el.dataset.r), c = Number(el.dataset.c);
+    if(el.dataset.t === "sg"){
+      state.sg[r][c] = v;
+      el.parentElement.classList.toggle("dirty", v !== SG_RATES_DEFAULT[r][c]);
+    }else{
+      state.kg[r][c] = v;
+      el.parentElement.classList.toggle("dirty", v !== KG_RATES_DEFAULT[r][c]);
+    }
+    save(); run();
+  });
+
+  // 割り当て変更
+  document.addEventListener("change", e=>{
+    const el = e.target;
+    if(el.tagName !== "SELECT" || !el.dataset.map) return;
+    const p = el.dataset.p;
+    if(el.dataset.map === "sg") state.map[p][0] = el.value || null;
+    else                        state.map[p][1] = el.value ? Number(el.value) : null;
+    save(); rebuildRates(); run();
+  });
+
+  // ボタン類
+  document.addEventListener("click", e=>{
+    const b = e.target.closest("button");
+    if(!b) return;
+
+    if(b.dataset.csv){
+      const box = document.getElementById("csv-" + b.dataset.csv);
+      const open = box.classList.toggle("open");
+      if(open){ box.querySelector("textarea").value = toCsv(b.dataset.csv); }
+      return;
+    }
+    if(b.dataset.csvcopy){
+      const box = document.getElementById("csv-" + b.dataset.csvcopy);
+      const ta = box.querySelector("textarea");
+      ta.select();
+      const msg = document.querySelector(`[data-csvmsg="${b.dataset.csvcopy}"]`);
+      navigator.clipboard.writeText(ta.value)
+        .then(()=>{ msg.className="msg"; msg.textContent="コピーしました。"; })
+        .catch(()=>{ msg.className="msg err"; msg.textContent="選択したので Ctrl+C を押してください。"; });
+      return;
+    }
+    if(b.dataset.csvapply){
+      const which = b.dataset.csvapply;
+      const ta = document.getElementById("csv-"+which).querySelector("textarea");
+      const msg = document.querySelector(`[data-csvmsg="${which}"]`);
+      const err = fromCsv(which, ta.value);
+      if(err){ msg.className="msg err"; msg.textContent = err; return; }
+      save(); rebuildRates(); run();
+      msg.className="msg"; msg.textContent="反映しました。";
+      return;
+    }
+    if(b.dataset.reset){
+      const what = b.dataset.reset;
+      const label = what==="sagawa" ? "佐川急便の運賃表" : what==="kangaroo" ? "飛脚カンガルー便の運賃表" : "送り先の割り当て";
+      if(!confirm(`${label}を初期値に戻します。修正した内容は消えます。よろしいですか？`)) return;
+      if(what==="sagawa")   state.sg  = clone(SG_RATES_DEFAULT);
+      if(what==="kangaroo") state.kg  = clone(KG_RATES_DEFAULT);
+      if(what==="map")      state.map = clone(MAP_DEFAULT);
+      save(); rebuildRates(); run();
+      return;
+    }
+  });
+}
+
+/* ========== 起動 ========== */
+const SG_VALID_TO = new Date(2026, 0, 15, 23, 59, 59);   // 運賃満期日
+if(new Date() > SG_VALID_TO) document.getElementById("expiry").hidden = false;
+
+load();
+buildPrefSelect();
+document.getElementById("f-coef").value = state.coef;
+rebuildRates();
+bind();
+run();
+</script>
